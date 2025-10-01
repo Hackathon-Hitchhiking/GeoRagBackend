@@ -8,7 +8,7 @@ from configs.Environment import get_environment_variables
 from errors.handlers import init_exception_handlers
 from routing.v1 import router as v1_router
 
-app = FastAPI(openapi_url="/core/openapi.json", docs_url="/core/docs")
+app = FastAPI(openapi_url="/api/core/openapi.json", docs_url="/api/core/docs")
 
 app.add_middleware(
     CORSMiddleware,
@@ -20,7 +20,7 @@ app.add_middleware(
 
 init_exception_handlers(app)
 
-app.include_router(v1_router, prefix="/core")
+app.include_router(v1_router, prefix="/api")
 
 env = get_environment_variables()
 
