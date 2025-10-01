@@ -51,10 +51,6 @@ class ImageRecord(TimestampMixin, EntityMeta):
             )
         )
 
-    @property
-    def metadata(self) -> dict[str, Any] | None:
-        return self.metadata_json
-
-    @metadata.setter
-    def metadata(self, value: dict[str, Any] | None) -> None:
+    def set_metadata(self, value: dict[str, Any] | None) -> None:
+        """Helper for updating the JSON metadata payload."""
         self.metadata_json = value

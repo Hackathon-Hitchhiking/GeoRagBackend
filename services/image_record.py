@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, Sequence
+from typing import Any, Optional, Sequence
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -45,7 +45,7 @@ class ImageRecordService:
         data = payload.model_dump(by_alias=False)
         metadata = data.pop("metadata", None)
         record = ImageRecord(**data)
-        record.metadata = metadata
+        record.set_metadata(metadata)
         return await self._repo.create(record)
 
     async def update_record(
@@ -57,7 +57,7 @@ class ImageRecordService:
         for key, value in update_data.items():
             setattr(record, key, value)
         if metadata is not None:
-            record.metadata = metadata
+            record.set_metadata(metadata)
         return await self._repo.update(record)
 
     async def delete_record(self, image_id: int) -> None:
@@ -70,7 +70,7 @@ class ImageRecordService:
         include_signed_urls: bool = False,
         expires_in: int = 900,
     ) -> ImageRecordRead:
-        extras: dict[str, str | None] = {}
+        extras: dict[str, Any] = {"metadata": record.metadata_json}
         if include_signed_urls:
             extras["signed_image_url"] = self._storage.generate_presigned_url(
                 record.image_key, expires_in
