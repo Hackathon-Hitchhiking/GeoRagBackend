@@ -15,7 +15,7 @@ from services.image_record import ImageRecordService
 from services.ml_client import MLServiceClient
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/core/v1/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
 
 async def get_db() -> AsyncIterator[AsyncSession]:
