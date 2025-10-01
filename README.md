@@ -1,14 +1,13 @@
 ## GeoRAG Backend Service
 
-This service provides an authenticated API for managing datasets, geospatial features, and documents that are consumed by the GeoRAG machine learning service. It exposes endpoints for registering users, issuing JWT access tokens, managing datasets and their associated metadata, and retrieving content stored in S3.
+This service provides an authenticated API for managing georeferenced image records that mirror the assets used by the GeoRAG machine learning service. It exposes endpoints for registering users, issuing JWT access tokens, browsing the shared image catalogue, and retrieving signed URLs for the underlying S3 objects. All model-generation requests are proxied to the dedicated ML backend.
 
 ### Features
 
 - FastAPI application with versioned routing under `/core/v1`.
 - JWT based authentication for protected endpoints.
-- Dataset CRUD operations with optional filtering by name and region.
-- Management of geospatial features tied to datasets.
-- Document lifecycle management with support for S3 uploads and presigned download URLs.
+- Image catalogue APIs backed by the shared `images` table from the ML service (filter by hash, matcher type, or local feature type).
+- Optional S3 presigned URLs for the original image and preview objects.
 - Authenticated proxy endpoints that forward generation requests to the GeoRAG ML service.
 
 ### Configuration
@@ -45,9 +44,7 @@ The OpenAPI schema is available at `http://localhost:8000/core/openapi.json` and
 
 ### ML Service Proxy
 
-All calls destined for the GeoRAG ML backend should be sent via this service. Authenticated clients can call
-`/core/v1/ml/<path>` using any HTTP method, and the request will be proxied to the ML service at the same path relative to
-`ML_SERVICE_BASE_URL`. Authentication is enforced before proxying and the response is transparently returned to the caller.
+All calls destined for the GeoRAG ML backend should be sent via this service. Authenticated clients can call `/core/v1/ml/<path>` using any HTTP method, and the request will be proxied to the ML service at the same path relative to `ML_SERVICE_BASE_URL`. Authentication is enforced before proxying and the response is transparently returned to the caller.
 
 ### Testing
 

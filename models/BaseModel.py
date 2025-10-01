@@ -1,18 +1,24 @@
-from sqlalchemy import Column, DateTime, func
-from sqlalchemy.orm import declarative_mixin
-from sqlalchemy.ext.declarative import declarative_base
+from datetime import datetime
 
-EntityMeta = declarative_base()
+from sqlalchemy import DateTime, func
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
-@declarative_mixin
+class EntityMeta(DeclarativeBase):
+    """Base class for SQLAlchemy models."""
+
+    pass
+
+
 class TimestampMixin:
-    created_at = Column(
-        DateTime(timezone=True), nullable=False, server_default=func.now()
+    """Common timestamp columns for persisted entities."""
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
     )
-    updated_at = Column(
+    updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
-        nullable=False,
         server_default=func.now(),
         onupdate=func.now(),
+        nullable=False,
     )

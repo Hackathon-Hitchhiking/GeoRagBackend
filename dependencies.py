@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections.abc import AsyncIterator
 
 from fastapi import Depends
@@ -9,8 +11,7 @@ from configs.Environment import get_environment_variables
 from errors.errors import ErrNotAuthorized
 from models.user import User
 from services.auth import AuthService
-from services.dataset import DatasetService
-from services.document import DocumentService
+from services.image_record import ImageRecordService
 from services.ml_proxy import MLProxyService
 
 
@@ -26,12 +27,10 @@ async def get_auth_service(db: AsyncSession = Depends(get_db)) -> AuthService:
     return AuthService(db)
 
 
-async def get_dataset_service(db: AsyncSession = Depends(get_db)) -> DatasetService:
-    return DatasetService(db)
-
-
-async def get_document_service(db: AsyncSession = Depends(get_db)) -> DocumentService:
-    return DocumentService(db)
+async def get_image_record_service(
+    db: AsyncSession = Depends(get_db),
+) -> ImageRecordService:
+    return ImageRecordService(db)
 
 
 def get_ml_proxy_service() -> MLProxyService:

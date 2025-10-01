@@ -1,18 +1,14 @@
 from schemas.auth import LoginRequest, Token, TokenPayload, UserCreate, UserRead
-from schemas.dataset import DatasetCreate, DatasetRead, DatasetUpdate
-from schemas.document import DocumentCreate, DocumentRead, DocumentUpdate
-from schemas.geofeature import GeoFeatureCreate, GeoFeatureRead, GeoFeatureUpdate
+from schemas.image_record import (
+    ImageRecordCreate,
+    ImageRecordRead,
+    ImageRecordUpdate,
+)
 
 __all__ = [
-    "DatasetCreate",
-    "DatasetRead",
-    "DatasetUpdate",
-    "DocumentCreate",
-    "DocumentRead",
-    "DocumentUpdate",
-    "GeoFeatureCreate",
-    "GeoFeatureRead",
-    "GeoFeatureUpdate",
+    "ImageRecordCreate",
+    "ImageRecordRead",
+    "ImageRecordUpdate",
     "LoginRequest",
     "Token",
     "TokenPayload",
