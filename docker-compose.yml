@@ -14,7 +14,7 @@ services:
   ml:
     build:
       context: ./ml/
-    image: georag-api
+      dockerfile: Dockerfile
     depends_on:
       postgres:
         condition: service_started
