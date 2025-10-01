@@ -14,11 +14,12 @@ class EnvironmentSettings(BaseSettings):
     DEBUG: bool
     AWS_ACCESS_KEY_ID: str
     AWS_SECRET_ACCESS_KEY: str
-    AWS_REGION: str
     AWS_S3_BUCKET: str
     AWS_S3_ENDPOINT_URL: Optional[str] = None
+
     JWT_SECRET_KEY: str
     JWT_ALGORITHM: str = "HS256"
+
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     ML_SERVICE_BASE_URL: str
 
