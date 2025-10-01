@@ -48,10 +48,11 @@ async def bad_request_exception_handler(request: Request, e: ErrBadRequest):
     )
 
 
-async def internal_server_exception_handler(request: Request, e: ErrBadRequest):
-    logger.error(f"err = {e}")
+async def internal_server_exception_handler(request: Request, e: Exception):
+    logger.error(f"Unhandled error at {request.url}: {e}", exc_info=e)
     return JSONResponse(
-        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content={"detail": str(e)}
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content={"detail": "Internal server error"},
     )
 
 
@@ -64,4 +65,4 @@ def init_exception_handlers(app: FastAPI):
 
     app.add_exception_handler(ErrBadRequest, bad_request_exception_handler)
 
-    app.add_exception_handler(500, internal_server_exception_handler)
+    app.add_exception_handler(Exception, internal_server_exception_handler)
