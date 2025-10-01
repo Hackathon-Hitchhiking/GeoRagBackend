@@ -43,30 +43,6 @@ async def healthcheck(
 ) -> MLHealthResponse:
     return await _execute(ml_client.health, error_message="Unable to reach ML service")
 
-
-@router.get("/images/summary", response_model=ImageSummaryResponse)
-async def get_images_summary(
-    _: User = Depends(get_current_user),
-    ml_client: MLServiceClient = Depends(get_ml_service_client),
-) -> ImageSummaryResponse:
-    return await _execute(
-        ml_client.get_summary,
-        error_message="Unable to fetch ML summary",
-    )
-
-
-@router.get("/images/{image_id}", response_model=ImageDetailsResponse)
-async def get_image_details(
-    image_id: int,
-    _: User = Depends(get_current_user),
-    ml_client: MLServiceClient = Depends(get_ml_service_client),
-) -> ImageDetailsResponse:
-    return await _execute(
-        lambda: ml_client.get_image(image_id),
-        error_message="Unable to fetch image details",
-    )
-
-
 @router.put(
     "/images",
     response_model=ImageIngestResponse | list[ImageIngestResponse],

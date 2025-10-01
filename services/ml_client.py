@@ -36,14 +36,6 @@ class MLServiceClient:
         payload = await self._request("GET", "/v1/health")
         return MLHealthResponse.model_validate(payload)
 
-    async def get_summary(self) -> ImageSummaryResponse:
-        payload = await self._request("GET", "/v1/images/summary")
-        return ImageSummaryResponse.model_validate(payload)
-
-    async def get_image(self, image_id: int) -> ImageDetailsResponse:
-        payload = await self._request("GET", f"/v1/images/{image_id}")
-        return ImageDetailsResponse.model_validate(payload)
-
     async def ingest_image(self, request: ImageIngestRequest) -> ImageIngestResponse:
         payload = await self._request(
             "PUT", "/v1/images", json=request.model_dump(mode="json")
