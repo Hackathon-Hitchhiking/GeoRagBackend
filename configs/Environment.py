@@ -12,6 +12,8 @@ class EnvironmentSettings(BaseSettings):
     POSTGRES_HOST: str
     POSTGRES_PORT: str
     DEBUG: bool
+    
+    AWS_REGION: str
     AWS_ACCESS_KEY_ID: str
     AWS_SECRET_ACCESS_KEY: str
     AWS_S3_BUCKET: str
