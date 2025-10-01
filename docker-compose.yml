@@ -26,7 +26,7 @@ services:
       DEV_MODE: "${DEV_MODE:-true}"
       LOG_LEVEL: "${LOG_LEVEL:-DEBUG}"
       ALLOWED_HOSTS: "${ALLOWED_HOSTS:-*}"
-      DATABASE_DSN: "${DATABASE_DSN_DOCKER:-postgresql+asyncpg://postgres:postgres@postgres:5432/georag}"
+      DATABASE_DSN: "${DATABASE_DSN_DOCKER:-postgresql+asyncpg://postgres:postgres@postgres:5432/postgres}"
       DATABASE_ECHO: "${DATABASE_ECHO:-false}"
       S3_BUCKET: "${S3_BUCKET:-geo-images}"
       S3_ENDPOINT_URL: "${S3_ENDPOINT_URL:-http://s3:9000}"
