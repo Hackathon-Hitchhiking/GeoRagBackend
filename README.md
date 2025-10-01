@@ -42,9 +42,9 @@ uv run uvicorn app:app --reload --port 8000
 
 The OpenAPI schema is available at `http://localhost:8000/core/openapi.json` and interactive docs at `http://localhost:8000/core/docs`.
 
-### ML Service Proxy
+### ML Service Integration
 
-All calls destined for the GeoRAG ML backend should be sent via this service. Authenticated clients can call `/core/v1/ml/<path>` using any HTTP method, and the request will be proxied to the ML service at the same path relative to `ML_SERVICE_BASE_URL`. Authentication is enforced before proxying and the response is transparently returned to the caller.
+The `/core/v1/ml` namespace now exposes typed endpoints that call the GeoRAG ML service using structured request/response models. Common operations such as health checks, image ingestion, catalogue queries, and the various search flows are mapped to explicit FastAPI routes that validate payloads before calling the upstream `/v1/*` API. Authentication is still enforced at the gateway level, and any error returned by the ML backend is propagated with the original status code and message.
 
 ### Testing
 

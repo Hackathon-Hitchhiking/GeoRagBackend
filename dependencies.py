@@ -12,7 +12,7 @@ from errors.errors import ErrNotAuthorized
 from models.user import User
 from services.auth import AuthService
 from services.image_record import ImageRecordService
-from services.ml_proxy import MLProxyService
+from services.ml_client import MLServiceClient
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/core/v1/auth/login")
@@ -33,9 +33,9 @@ async def get_image_record_service(
     return ImageRecordService(db)
 
 
-def get_ml_proxy_service() -> MLProxyService:
+def get_ml_service_client() -> MLServiceClient:
     env = get_environment_variables()
-    return MLProxyService(env.ML_SERVICE_BASE_URL)
+    return MLServiceClient(env.ML_SERVICE_BASE_URL)
 
 
 async def get_current_user(
