@@ -80,4 +80,6 @@ class ImageRecordService:
                 if record.preview_key
                 else None
             )
-        return ImageRecordRead.model_validate(record, update=extras)
+
+        base_model = ImageRecordRead.model_validate(record)
+        return base_model.model_copy(update=extras)
