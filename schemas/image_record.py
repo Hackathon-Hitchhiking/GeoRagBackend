@@ -29,7 +29,11 @@ class ImageRecordBase(BaseModel):
     global_descriptor_type: str = Field(..., max_length=64)
     matcher_type: str = Field(..., max_length=64)
 
-    model_config = ConfigDict(populate_by_name=True, from_attributes=True)
+    model_config = ConfigDict(
+        populate_by_name=True,
+        from_attributes=True,
+        ser_json_bytes="base64",
+    )
 
 
 class ImageRecordCreate(ImageRecordBase):
@@ -55,7 +59,11 @@ class ImageRecordUpdate(BaseModel):
     global_descriptor_type: str | None = Field(default=None, max_length=64)
     matcher_type: str | None = Field(default=None, max_length=64)
 
-    model_config = ConfigDict(populate_by_name=True, from_attributes=True)
+    model_config = ConfigDict(
+        populate_by_name=True,
+        from_attributes=True,
+        ser_json_bytes="base64",
+    )
 
 
 class ImageRecordRead(ImageRecordBase):
@@ -65,4 +73,8 @@ class ImageRecordRead(ImageRecordBase):
     signed_image_url: str | None = None
     signed_preview_url: str | None = None
 
-    model_config = ConfigDict(populate_by_name=True, from_attributes=True)
+    model_config = ConfigDict(
+        populate_by_name=True,
+        from_attributes=True,
+        ser_json_bytes="base64",
+    )
