@@ -69,53 +69,84 @@ async def get_image_details(
 
 @router.put(
     "/images",
-    response_model=ImageIngestResponse,
+    response_model=ImageIngestResponse | list[ImageIngestResponse],
     status_code=status.HTTP_201_CREATED,
 )
 async def ingest_image(
-    payload: ImageIngestRequest,
+    payload: ImageIngestRequest | list[ImageIngestRequest],
     _: User = Depends(get_current_user),
     ml_client: MLServiceClient = Depends(get_ml_service_client),
-) -> ImageIngestResponse:
-    return await _execute(
-        lambda: ml_client.ingest_image(payload),
-        error_message="Unable to ingest image",
-    )
-
-
-@router.post("/search_by_image", response_model=SearchResponse)
-async def search_by_image(
-    payload: SearchRequest,
-    _: User = Depends(get_current_user),
-    ml_client: MLServiceClient = Depends(get_ml_service_client),
-) -> SearchResponse:
-    return await _execute(
-        lambda: ml_client.search_by_image(payload),
-        error_message="Unable to search by image",
-    )
+) -> ImageIngestResponse | list[ImageIngestResponse]:
+    requests = payload if isinstance(payload, list) else [payload]
+    responses: list[ImageIngestResponse] = []
+    for idx, request_item in enumerate(requests, start=1):
+        responses.append(
+            await _execute(
+                lambda req=request_item: ml_client.ingest_image(req),
+                error_message=f"Unable to ingest image #{idx}",
+            )
+        )
+    return responses if isinstance(payload, list) else responses[0]
 
 
 @router.post(
-    "/search_by_coordinates", response_model=LocationSearchResponse
+    "/search_by_image",
+    response_model=SearchResponse | list[SearchResponse],
+)
+async def search_by_image(
+    payload: SearchRequest | list[SearchRequest],
+    _: User = Depends(get_current_user),
+    ml_client: MLServiceClient = Depends(get_ml_service_client),
+) -> SearchResponse | list[SearchResponse]:
+    requests = payload if isinstance(payload, list) else [payload]
+    responses: list[SearchResponse] = []
+    for idx, request_item in enumerate(requests, start=1):
+        responses.append(
+            await _execute(
+                lambda req=request_item: ml_client.search_by_image(req),
+                error_message=f"Unable to search by image #{idx}",
+            )
+        )
+    return responses if isinstance(payload, list) else responses[0]
+
+
+@router.post(
+    "/search_by_coordinates",
+    response_model=LocationSearchResponse | list[LocationSearchResponse],
 )
 async def search_by_coordinates(
-    payload: CoordinatesSearchRequest,
+    payload: CoordinatesSearchRequest | list[CoordinatesSearchRequest],
     _: User = Depends(get_current_user),
     ml_client: MLServiceClient = Depends(get_ml_service_client),
-) -> LocationSearchResponse:
-    return await _execute(
-        lambda: ml_client.search_by_coordinates(payload),
-        error_message="Unable to search by coordinates",
-    )
+) -> LocationSearchResponse | list[LocationSearchResponse]:
+    requests = payload if isinstance(payload, list) else [payload]
+    responses: list[LocationSearchResponse] = []
+    for idx, request_item in enumerate(requests, start=1):
+        responses.append(
+            await _execute(
+                lambda req=request_item: ml_client.search_by_coordinates(req),
+                error_message=f"Unable to search by coordinates #{idx}",
+            )
+        )
+    return responses if isinstance(payload, list) else responses[0]
 
 
-@router.post("/search_by_address", response_model=LocationSearchResponse)
+@router.post(
+    "/search_by_address",
+    response_model=LocationSearchResponse | list[LocationSearchResponse],
+)
 async def search_by_address(
-    payload: AddressSearchRequest,
+    payload: AddressSearchRequest | list[AddressSearchRequest],
     _: User = Depends(get_current_user),
     ml_client: MLServiceClient = Depends(get_ml_service_client),
-) -> LocationSearchResponse:
-    return await _execute(
-        lambda: ml_client.search_by_address(payload),
-        error_message="Unable to search by address",
-    )
+) -> LocationSearchResponse | list[LocationSearchResponse]:
+    requests = payload if isinstance(payload, list) else [payload]
+    responses: list[LocationSearchResponse] = []
+    for idx, request_item in enumerate(requests, start=1):
+        responses.append(
+            await _execute(
+                lambda req=request_item: ml_client.search_by_address(req),
+                error_message=f"Unable to search by address #{idx}",
+            )
+        )
+    return responses if isinstance(payload, list) else responses[0]

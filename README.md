@@ -44,7 +44,7 @@ The OpenAPI schema is available at `http://localhost:8000/core/openapi.json` and
 
 ### ML Service Integration
 
-The `/core/v1/ml` namespace now exposes typed endpoints that call the GeoRAG ML service using structured request/response models. Common operations such as health checks, image ingestion, catalogue queries, and the various search flows are mapped to explicit FastAPI routes that validate payloads before calling the upstream `/v1/*` API. Authentication is still enforced at the gateway level, and any error returned by the ML backend is propagated with the original status code and message.
+The `/core/v1/ml` namespace now exposes typed endpoints that call the GeoRAG ML service using structured request/response models. Common operations such as health checks, image ingestion, catalogue queries, and the various search flows are mapped to explicit FastAPI routes that validate payloads before calling the upstream `/v1/*` API. Authentication is still enforced at the gateway level, and any error returned by the ML backend is propagated with the original status code and message. The image ingestion and search endpoints accept either a single payload or a JSON array, so clients can submit multiple jobs in one call and the backend will process them sequentially against the ML service.
 
 ### Testing
 
