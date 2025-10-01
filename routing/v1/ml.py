@@ -45,84 +45,80 @@ async def healthcheck(
 
 @router.put(
     "/images",
-    response_model=ImageIngestResponse | list[ImageIngestResponse],
+    response_model=list[ImageIngestResponse],
     status_code=status.HTTP_201_CREATED,
 )
 async def ingest_image(
-    payload: ImageIngestRequest | list[ImageIngestRequest],
+    payload: list[ImageIngestRequest],
     _: User = Depends(get_current_user),
     ml_client: MLServiceClient = Depends(get_ml_service_client),
-) -> ImageIngestResponse | list[ImageIngestResponse]:
-    requests = payload if isinstance(payload, list) else [payload]
+) -> list[ImageIngestResponse]:
     responses: list[ImageIngestResponse] = []
-    for idx, request_item in enumerate(requests, start=1):
+    for idx, request_item in enumerate(payload, start=1):
         responses.append(
             await _execute(
                 lambda req=request_item: ml_client.ingest_image(req),
                 error_message=f"Unable to ingest image #{idx}",
             )
         )
-    return responses if isinstance(payload, list) else responses[0]
+    return responses
 
 
 @router.post(
     "/search_by_image",
-    response_model=SearchResponse | list[SearchResponse],
+    response_model=list[SearchResponse],
 )
 async def search_by_image(
-    payload: SearchRequest | list[SearchRequest],
+    payload: list[SearchRequest],
     _: User = Depends(get_current_user),
     ml_client: MLServiceClient = Depends(get_ml_service_client),
-) -> SearchResponse | list[SearchResponse]:
-    requests = payload if isinstance(payload, list) else [payload]
+) -> list[SearchResponse]:
     responses: list[SearchResponse] = []
-    for idx, request_item in enumerate(requests, start=1):
+    for idx, request_item in enumerate(payload, start=1):
         responses.append(
             await _execute(
                 lambda req=request_item: ml_client.search_by_image(req),
                 error_message=f"Unable to search by image #{idx}",
             )
         )
-    return responses if isinstance(payload, list) else responses[0]
+    return responses
 
 
 @router.post(
     "/search_by_coordinates",
-    response_model=LocationSearchResponse | list[LocationSearchResponse],
+    response_model=list[LocationSearchResponse],
 )
 async def search_by_coordinates(
-    payload: CoordinatesSearchRequest | list[CoordinatesSearchRequest],
+    payload: list[CoordinatesSearchRequest],
     _: User = Depends(get_current_user),
     ml_client: MLServiceClient = Depends(get_ml_service_client),
-) -> LocationSearchResponse | list[LocationSearchResponse]:
-    requests = payload if isinstance(payload, list) else [payload]
+) -> list[LocationSearchResponse]:
     responses: list[LocationSearchResponse] = []
-    for idx, request_item in enumerate(requests, start=1):
+    for idx, request_item in enumerate(payload, start=1):
         responses.append(
             await _execute(
                 lambda req=request_item: ml_client.search_by_coordinates(req),
                 error_message=f"Unable to search by coordinates #{idx}",
             )
         )
-    return responses if isinstance(payload, list) else responses[0]
+    return responses
 
 
 @router.post(
     "/search_by_address",
-    response_model=LocationSearchResponse | list[LocationSearchResponse],
+    response_model=list[LocationSearchResponse],
 )
 async def search_by_address(
-    payload: AddressSearchRequest | list[AddressSearchRequest],
+    payload: list[AddressSearchRequest],
     _: User = Depends(get_current_user),
     ml_client: MLServiceClient = Depends(get_ml_service_client),
-) -> LocationSearchResponse | list[LocationSearchResponse]:
-    requests = payload if isinstance(payload, list) else [payload]
+) -> list[LocationSearchResponse]:
     responses: list[LocationSearchResponse] = []
-    for idx, request_item in enumerate(requests, start=1):
+    for idx, request_item in enumerate(payload, start=1):
         responses.append(
             await _execute(
                 lambda req=request_item: ml_client.search_by_address(req),
                 error_message=f"Unable to search by address #{idx}",
             )
         )
-    return responses if isinstance(payload, list) else responses[0]
+    return responses
