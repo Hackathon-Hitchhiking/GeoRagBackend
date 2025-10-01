@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field
 
 
 class ImageRecordBase(BaseModel):
@@ -14,7 +14,11 @@ class ImageRecordBase(BaseModel):
     latitude: float | None = None
     longitude: float | None = None
     address: str | None = Field(default=None, max_length=512)
-    metadata: dict[str, Any] | None = Field(default=None, alias="metadata")
+    metadata: dict[str, Any] | None = Field(
+        default=None,
+        alias="metadata",
+        validation_alias=AliasChoices("metadata_json", "metadata"),
+    )
     image_hash: str = Field(..., max_length=128)
     descriptor_count: int = 0
     descriptor_dim: int = 0
@@ -37,7 +41,11 @@ class ImageRecordUpdate(BaseModel):
     latitude: float | None = None
     longitude: float | None = None
     address: str | None = Field(default=None, max_length=512)
-    metadata: dict[str, Any] | None = Field(default=None, alias="metadata")
+    metadata: dict[str, Any] | None = Field(
+        default=None,
+        alias="metadata",
+        validation_alias=AliasChoices("metadata_json", "metadata"),
+    )
     descriptor_count: int | None = None
     descriptor_dim: int | None = None
     keypoint_count: int | None = None
