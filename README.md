@@ -9,6 +9,7 @@ This service provides an authenticated API for managing datasets, geospatial fea
 - Dataset CRUD operations with optional filtering by name and region.
 - Management of geospatial features tied to datasets.
 - Document lifecycle management with support for S3 uploads and presigned download URLs.
+- Authenticated proxy endpoints that forward generation requests to the GeoRAG ML service.
 
 ### Configuration
 
@@ -29,6 +30,7 @@ AWS_S3_ENDPOINT_URL=
 JWT_SECRET_KEY=
 JWT_ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=60
+ML_SERVICE_BASE_URL=
 ```
 
 ### Running Locally
@@ -40,6 +42,12 @@ uv run uvicorn app:app --reload --port 8000
 ```
 
 The OpenAPI schema is available at `http://localhost:8000/core/openapi.json` and interactive docs at `http://localhost:8000/core/docs`.
+
+### ML Service Proxy
+
+All calls destined for the GeoRAG ML backend should be sent via this service. Authenticated clients can call
+`/core/v1/ml/<path>` using any HTTP method, and the request will be proxied to the ML service at the same path relative to
+`ML_SERVICE_BASE_URL`. Authentication is enforced before proxying and the response is transparently returned to the caller.
 
 ### Testing
 

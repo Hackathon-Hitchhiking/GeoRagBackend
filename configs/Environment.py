@@ -20,6 +20,7 @@ class EnvironmentSettings(BaseSettings):
     JWT_SECRET_KEY: str
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    ML_SERVICE_BASE_URL: str
 
     class Config:
         env_file = "configs/.env"
