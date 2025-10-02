@@ -93,6 +93,15 @@ services:
       timeout: 5s
       retries: 5
 
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    command:
+      sh -c "npm run build"
+    volumes:
+      - frontend_storage:/app/dist
+
   nginx:
     build:
       dockerfile: ./Dockerfile
@@ -105,6 +114,7 @@ services:
       - .docker/.env
     depends_on:
       - app
+      - frontend
     ports:
       - "80:80"
       - "443:443"
