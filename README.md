@@ -10,6 +10,9 @@ This service provides an authenticated API for managing georeferenced image reco
 - Optional S3 presigned URLs for the original image and preview objects.
 - Authenticated proxy endpoints that forward generation requests to the GeoRAG ML service.
 
+### Architecture
+![C4](https://github.com/Hackathon-Hitchhiking/GeoRagBackend/blob/master/c4.jpg)
+
 ### Configuration
 
 Copy `configs/.env.example` to `configs/.env` and fill in the required values:
